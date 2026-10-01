@@ -1,0 +1,75 @@
+
+clear all;
+
+close all;
+
+clc;
+
+
+% define parameters
+
+g=9.81; %m/sec2
+
+S=0.7; %m2
+
+rho=1000; % kg/m3
+
+C_L=1000; % loss coeficient Pa/s2 kg2
+
+
+%initial Conditions
+
+h0=2;
+
+
+% Calculated Parameters
+
+alpha=-sqrt(g/2/S^2/rho/C_L);
+
+Ci_prime=sqrt(h0);
+
+
+t_e=-2*sqrt(h0)/alpha;
+
+
+
+% Solutions
+
+t_past=linspace(-0.2*t_e,0);
+
+
+t0=0;
+
+
+
+t1=t_e;
+
+
+t=linspace(t0,t1,1001);
+
+
+h=alpha^2*t.^2/4+alpha*t*sqrt(h0)+h0;
+
+h_avg=(alpha^2*t_e^3/12+alpha*sqrt(h0)*t_e^2/2+h0*t_e)/(t_e-t0);
+
+disp({'Numerically computed average height of the water is ',mean(h)});
+
+disp({'Numerically computed average height of the water is ',mean(h_avg)});
+
+
+
+plot(t,h);
+
+hold on
+
+plot(t_past,t_past*0+h0,'r','LineWidth',2);
+
+plot(t,t*0+h_avg,'--g','LineWidth',2);
+
+xlim([-0.2*t_e,t_e]);
+
+ylim=([0,1.05*h0]);
+
+xlabel('t[s]');
+
+ylabel('h[m]');
